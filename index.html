@@ -467,9 +467,9 @@ function renderPaper(){
   <div>${quiz}</div>`;
 }
 
-function render(){
+function render(toTop=true){
   if(screen==="home")renderHome();else renderPaper();
-  window.scrollTo(0,0);
+  if(toTop)window.scrollTo(0,0);
 }
 
 /* ---------- 事件 ---------- */
@@ -488,9 +488,10 @@ document.getElementById("app").addEventListener("click",e=>{
   }
   if(btn.dataset.master){
     const mid=btn.dataset.master;
+    const y=window.scrollY;
     if(store[mid]&&store[mid].done)delete store[mid];
     else store[mid]={done:true,right:true};
-    save();render();return;
+    save();render(false);window.scrollTo(0,y);return;
   }
   if(btn.dataset.essay){
     const el=document.getElementById("an-"+btn.dataset.essay);
@@ -507,10 +508,9 @@ document.getElementById("app").addEventListener("click",e=>{
   const rec=store[id];
   if(rec&&rec.done&&rec.right)return;               // 已答对的锁定
   const right=btn.dataset.v===q.a;
+  const y=window.scrollY;                           // 记住当前滚动位置
   store[id]={done:true,right,pick:btn.dataset.v};   // 答错可重选，覆盖记录
-  save();render();
-  const cardEl=btn.closest(".qcard");
-  if(cardEl)window.scrollTo(0,window.scrollY+cardEl.getBoundingClientRect().top-90);
+  save();render(false);window.scrollTo(0,y);        // 重渲染后停在原位置，不回顶部
 });
 render();
 </script>
