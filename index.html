@@ -162,6 +162,14 @@ body{
   .opt{padding:11px 12px;font-size:14.5px;}
 }
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4f6bf0">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="化学刷题">
 </head>
 <body>
 <div id="app" class="wrap"></div>
@@ -513,6 +521,13 @@ document.getElementById("app").addEventListener("click",e=>{
   save();render(false);window.scrollTo(0,y);        // 重渲染后停在原位置，不回顶部
 });
 render();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
 </script>
 </body>
 </html>
